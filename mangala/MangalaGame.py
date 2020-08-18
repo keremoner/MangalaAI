@@ -58,7 +58,14 @@ class MangalaGame(Game):
         for i in legalMoves:
             valids[i] = 1
         return np.array(valids)
+    
+    def getScore(self, board, player):
+        if player==1:
+            return (board[6]-board[13])
+        else:
+            return (board[13]-board[6])
 
+        
     def getGameEnded(self, board, player):
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
         # player = 1

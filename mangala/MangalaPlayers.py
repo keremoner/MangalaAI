@@ -33,6 +33,7 @@ class HumanMangalaPlayer():
         return a
 
 
+#Not Completed
 class GreedyMangalaPlayer():
     def __init__(self, game):
         self.game = game
