@@ -40,7 +40,7 @@ class tictactoeGame(Game):
         b.pieces = np.copy(board)
         move = action
         b.execute_move(move, player)
-        return b.pieces
+        return b.pieces, -player
 
     def getValidMoves(self, board, player):
         # return a fixed size binary vector
@@ -65,7 +65,7 @@ class tictactoeGame(Game):
             return 1
         if b.is_win(-player):
             return -1
-        if b.has_legal_moves():
+        if b.has_legal_moves(player):
             return 0
         # draw has a very little value 
         return 1e-4

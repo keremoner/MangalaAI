@@ -17,7 +17,7 @@ class tictactoeNNet(nn.Module):
         self.action_size = game.getActionSize()
         self.args = args
 
-        super(MangalaNNet, self).__init__()
+        super(tictactoeNNet, self).__init__()
         self.fc1 = nn.Linear(9, 128)
         self.fc2 = nn.Linear(128, 256)
         self.fc3 = nn.Linear(256, 9)

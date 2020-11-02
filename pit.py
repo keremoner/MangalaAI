@@ -31,11 +31,14 @@ gameNum = 200
 if iterateAll:
 
     winrates = []
-    for file in os.listdir('/content/drive/My Drive/MangalaAI/temp/'):
+    #for file in os.listdir('/content/drive/My Drive/MangalaAI/temp/'):
+    for file in os.listdir('temp/'):
+        print("sad")
         if file.endswith(".pth.tar") and not(file == "temp.pth.tar" or file == "best.pth.tar"):
           
             n1 = NNet(g)
-            n1.load_checkpoint('/content/drive/My Drive/MangalaAI/temp/', file)
+            #n1.load_checkpoint('/content/drive/My Drive/MangalaAI/temp/', file)
+            n1.load_checkpoint('temp/', file)
             args1 = dotdict({'numMCTSSims': 50, 'cpuct':1.0})
             mcts1 = MCTS(g, n1, args1)
             n1p = lambda x: np.argmax(mcts1.getActionProb(x, temp=0))
@@ -51,14 +54,16 @@ if iterateAll:
     ax.set(xlabel='Iteration', ylabel='Win Rate (Win Num/Total)',
     title='Iteration vs Win Rate')
     ax.grid()
-
-    fig.savefig("/content/drive/My Drive/MangalaAI/test.png")
+    
+    #fig.savefig("/content/drive/My Drive/MangalaAI/test.png")
+    fig.savefig("test.png")
     plt.show()
     
 
 else:
     n1 = NNet(g)
-    n1.load_checkpoint('/content/drive/My Drive/MangalaAI/temp/','best.pth.tar')
+    #n1.load_checkpoint('/content/drive/My Drive/MangalaAI/temp/','best.pth.tar')
+    n1.load_checkpoint('/temp/','best.pth.tar')
     args1 = dotdict({'numMCTSSims': 50, 'cpuct':1.0})
     mcts1 = MCTS(g, n1, args1)
     n1p = lambda x: np.argmax(mcts1.getActionProb(x, temp=0))

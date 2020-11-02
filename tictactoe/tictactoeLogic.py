@@ -14,7 +14,7 @@ Date: Jan 5, 2018.
 Based on the board for the game of Othello by Eric P. Nichols.
 
 '''
-
+import numpy as np
 # from bkcharts.attributes import color
 class Board():
 
@@ -56,13 +56,13 @@ class Board():
         """
         if color==1:
             #replay stores if the player should act again
-            self[move]=1
+            self.pieces[move]=1
 
         else:
             #replay stores if the player should act again
-            self[move]=-1
+            self.pieces[move]=-1
                     
-     def is_win(self, color):
+    def is_win(self, color):
         """Check whether the given player has collected a triplet in any direction; 
         @param color (1=white,-1=black)
         """

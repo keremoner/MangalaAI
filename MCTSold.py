@@ -35,7 +35,7 @@ class MCTS():
                    proportional to Nsa[(s,a)]**(1./temp)
         """
         for i in range(self.args.numMCTSSims):
-            self.search(canonicalBoard, 1, -1)
+            self.search(canonicalBoard)
 
         s = self.game.stringRepresentation(canonicalBoard)
         counts = [self.Nsa[(s, a)] if (s, a) in self.Nsa else 0 for a in range(self.game.getActionSize())]
@@ -52,7 +52,7 @@ class MCTS():
         probs = [x / counts_sum for x in counts]
         return probs
 
-    def search(self, canonicalBoard, cur_player, k):
+    def search(self, canonicalBoard):
         """
         This function performs one iteration of MCTS. It is recursively called
         till a leaf node is found. The action chosen at each node is one that
@@ -80,7 +80,7 @@ class MCTS():
             self.Es[s] = self.game.getGameEnded(canonicalBoard, 1)
         if self.Es[s] != 0:
             # terminal node
-            return self.Es[s]*k
+            return -self.Es[s]
 
         if s not in self.Ps:
             # leaf node
@@ -101,7 +101,7 @@ class MCTS():
 
             self.Vs[s] = valids
             self.Ns[s] = 0
-            return v*k
+            return -v
 
         valids = self.Vs[s]
         cur_best = -float('inf')
@@ -124,10 +124,8 @@ class MCTS():
         next_s, next_player = self.game.getNextState(canonicalBoard, 1, a)
         next_s = self.game.getCanonicalForm(next_s, next_player)
 
-        if next_player==1:          
-            v = self.search(next_s, 1, 1)
-        else:
-            v = self.search(next_s, 1, -1)
+        v = self.search(next_s)
+
         if (s, a) in self.Qsa:
             self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)
             self.Nsa[(s, a)] += 1
@@ -137,4 +135,4 @@ class MCTS():
             self.Nsa[(s, a)] = 1
 
         self.Ns[s] += 1
-        return v*k
+        return -v
