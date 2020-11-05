@@ -75,13 +75,17 @@ class MangalaGame(Game):
         if not b.has_legal_moves(player) and not b.has_legal_moves(-player):
             #player wins
             if b[6]>b[13]:
-                return 1
+                return 1*player
             #player loses
             elif b[6]<b[13]:
-                return -1
+                return -1*player
             #tie, very little reward for draw
             else:
                 return 1e-4
+        elif b[6]>24:
+            return player
+        elif b[13]>24:
+            return -player
         else:
             return 0
               

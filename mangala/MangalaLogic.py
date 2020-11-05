@@ -36,18 +36,21 @@ class Board():
         @param color not used and came from previous version.        
         """
         moves = set()  # stores the legal moves.
-        
-        for i in range(6):
-            if self[i] != 0:
-                moves.add(i)
+        if color==1:        
+            for i in range(6):
+                if self[i] != 0:
+                    moves.add(i)
+        else:
+            for i in range(7,13):
+                if self[i] != 0:
+                    moves.add(i)
         return list(moves)
         
           
 
     def has_legal_moves(self, color):
         if color == 1:
-            for i in range(6):
-                
+            for i in range(6):                
                 if self[i] != 0:
                     return True
             return False
@@ -87,10 +90,16 @@ class Board():
                 k = self[move]
                 self.pieces[move] = 0
                 final = (move+k-1)%14
+                
 
                 #put 1 stone in each hole going counter clockwise until the stones in the initial hole are finished
+                m = 0
                 for i in range(k):
-                    self.pieces[(move+i)%14] +=1
+                    if (move+m)%14==13:
+                        m+=1
+                    self.pieces[(move+m)%14] +=1
+                    m+=1
+                        
 
                 #if final hole had 0 stones, take stones from opposite hole and put the stone in final hole to score hole
                 if final >= 0 and final <= 5 and self[final] == 1 and self.pieces[12-final]!=0:
@@ -136,9 +145,13 @@ class Board():
                 self.pieces[move] = 0
                 final = (move+k-1)%14
 
+                m = 0
                 #put 1 stone in each hole going counter clockwise until the stones in the initial hole are finished
                 for i in range(k):
-                    self.pieces[(move+i)%14] +=1
+                    if (move+m)%14==6:
+                        m+=1
+                    self.pieces[(move+m)%14] +=1
+                    m+=1
 
                 #if final hole had 0 stones, take stones from opposite hole and put the stone in final hole to score hole
                 if final >= 7 and final <= 12 and self[final] == 1 and self.pieces[12-final]!=0:
